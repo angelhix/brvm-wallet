@@ -44,7 +44,7 @@ function LoginPage() {
     const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     setBusy(false);
     if (error) {
-      toast.error(error.message.includes("Email not confirmed") ? "Confirme d'abord ton adresse email (lien reçu à l'inscription)." : "Email ou mot de passe incorrect.");
+      toast.error(error.message.includes("suspended") ? "Ce compte est suspendu. Écris-nous via la page Contact." : "Email ou mot de passe incorrect.");
       return;
     }
     navigate({ to: target, replace: true });
