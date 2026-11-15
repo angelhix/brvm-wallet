@@ -5,7 +5,10 @@
 // referrals and contact messages.
 import { addDays, closeOn, market, secId } from "./demo-market";
 
-type Row = Record<string, any>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Row = any;
+type TableName = "profiles" | "user_roles" | "portfolios" | "sub_portfolios" | "transactions" | "tour_progress" | "contact_messages" | "referrals" | "appointments" | "imports" | "audit_log";
+type Tables = Record<TableName, Row[]> & Record<string, Row[]>;
 export interface AuthUser {
   id: string;
   email: string;
@@ -25,7 +28,7 @@ interface State {
   version: number;
   users: StoredUser[];
   session: { userId: string } | null;
-  tables: Record<string, Row[]>;
+  tables: Tables;
 }
 
 const KEY = "kauri.demo-db";
@@ -47,12 +50,12 @@ const code8 = () => uid().replace(/-/g, "").slice(0, 8).toUpperCase();
 
 // ---------- seed ----------
 function seed(): State {
-  const t: Record<string, Row[]> = {
+  const t: Tables = {
     profiles: [], user_roles: [], portfolios: [], sub_portfolios: [], transactions: [], tour_progress: [],
     contact_messages: [], referrals: [], appointments: [], imports: [], audit_log: [],
   };
   const users: StoredUser[] = [];
-  const addUser = (email: string, first: string, created: string, opts: { role?: "admin" | "user"; ref?: string; code?: string; lastSeen?: string } = {}) => {
+  const addUser = (email: string, first: string, created: string, opts: { role?: "admin" | "user" | undefined; ref?: string | undefined; code?: string | undefined; lastSeen?: string | undefined } = {}) => {
     const id = email === DEMO_EMAIL ? "user-demo" : "user-" + email.split("@")[0]!.replace(/[^a-z0-9]/gi, "");
     users.push({ id, email, password: DEMO_PASSWORD, created_at: created, last_sign_in_at: opts.lastSeen ?? created, user_metadata: { first_name: first } });
     t.profiles!.push({ id, email, first_name: first, referral_code: opts.code ?? code8(), referred_by: opts.ref ?? null, created_at: created });
@@ -340,9 +343,9 @@ function createUser(email: string, password: string, meta: Record<string, unknow
   const id = uid();
   const u: StoredUser = { id, email, password, created_at: now(), last_sign_in_at: now(), user_metadata: meta };
   s.users.push(u);
-  const refCode = typeof meta.ref === "string" ? meta.ref.trim().toUpperCase() : "";
+  const refCode = typeof meta["ref"] === "string" ? meta["ref"].trim().toUpperCase() : "";
   const referrer = refCode ? s.tables.profiles!.find((p) => p.referral_code === refCode) : undefined;
-  s.tables.profiles!.push({ id, email, first_name: (meta.first_name as string) || null, referral_code: code8(), referred_by: referrer?.id ?? null, created_at: now() });
+  s.tables.profiles!.push({ id, email, first_name: (meta["first_name"] as string) || null, referral_code: code8(), referred_by: referrer?.id ?? null, created_at: now() });
   if (referrer) s.tables.referrals!.push({ id: uid(), referrer_id: referrer.id, referred_id: id, referred_label: email.slice(0, 2) + "•••@" + (email.split("@")[1] ?? ""), created_at: now() });
   s.tables.portfolios!.push({ id: uid(), user_id: id, name: "Mon portefeuille", cash_tracking: true, currency: "XOF", created_at: now() });
   s.tables.user_roles!.push({ id: uid(), user_id: id, role: "user" });
@@ -359,7 +362,7 @@ const auth = {
   },
   onAuthStateChange(cb: (event: string, session: Session | null) => void) {
     listeners.add(cb);
-    return { data: { subscription: { unsubscribe: () => listeners.delete(cb) } } };
+    return { data: { subscription: { unsubscribe: () => { listeners.delete(cb); } } } };
   },
   async signInWithPassword({ email, password }: { email: string; password: string }) {
     const s = load();
