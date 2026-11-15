@@ -167,7 +167,8 @@ function Securite() {
     const check = await db.auth.signInWithPassword({ email: user.email, password: current });
     if (check.error) {
       setBusy(false);
-      return toast.error("Mot de passe actuel incorrect.");
+      toast.error("Mot de passe actuel incorrect.");
+      return;
     }
     const { error } = await db.auth.updateUser({ password: next });
     setBusy(false);
