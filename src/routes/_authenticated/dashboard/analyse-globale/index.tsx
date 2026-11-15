@@ -352,7 +352,7 @@ function ParTitre({ rows, focus, onFocus }: { rows: UniverseRow[]; focus: string
           <KeyValue label="Variation 3 mois" value={<Pct value={r.ch3m} />} />
           <KeyValue label="Rendement du dividende" value={fmtPct(r.yield)} />
           <KeyValue label="PER" value={r.per ? fmtNum(r.per, 1) : "—"} />
-          {pos && <KeyValue label="Ta position" value={`${fmtNum(pos.quantity)} titres · ${fmtFCFA(pos.marketValue)}`} />}
+          {pos && <KeyValue label="Ta position" value={`${fmtNum(pos.quantity)} titres · ${fmtFCFA(pos.value)}`} />}
         </Section>
       </div>
     </div>
