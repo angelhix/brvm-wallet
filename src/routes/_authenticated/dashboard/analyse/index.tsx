@@ -18,7 +18,7 @@ import { fmtDate, fmtFCFA, fmtNum, fmtPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/dashboard/analyse/")({
-  validateSearch: (s: Record<string, unknown>): { ticker?: string } =>
+  validateSearch: (s: Record<string, unknown>): { ticker?: string | undefined } =>
     typeof s["ticker"] === "string" && s["ticker"] ? { ticker: s["ticker"].toUpperCase() } : {},
   head: () => ({
     meta: [
