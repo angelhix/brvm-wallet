@@ -117,3 +117,39 @@ export function parseRows(table: string[][], knownTickers: Set<string>): { rows:
   });
   return { rows, missing };
 }
+
+/** Re-validates a row after it was edited on the verification screen. */
+export function checkRow(row: Omit<ParsedRow, "errors">, knownTickers: Set<string>): string[] {
+  const errors: string[] = [];
+  if (!row.date) errors.push("Date illisible");
+  if (!row.type) errors.push("Type inconnu");
+  const t = row.type;
+  if (t === "acquisition" || t === "cession" || t === "dividende") {
+    if (!row.ticker) errors.push("Titre manquant");
+    else if (!knownTickers.has(row.ticker)) errors.push(`Titre ${row.ticker} inconnu`);
+  }
+  if ((t === "acquisition" || t === "cession") && (row.quantity <= 0 || row.price <= 0)) errors.push("Quantité et prix requis");
+  if ((t === "depot" || t === "retrait" || t === "dividende" || t === "frais") && row.amount <= 0) errors.push("Montant requis");
+  return errors;
+}
+
+/** Splits text pasted from a PDF statement or spreadsheet (tabs, semicolons or 2+ spaces). */
+export function splitPasted(text: string): string[][] {
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  const sep = lines.some((l) => l.includes("\t")) ? /\t/ : lines.some((l) => l.includes(";")) ? /;/ : /\s{2,}/;
+  return lines.map((l) => l.split(sep).map((c) => c.trim()));
+}
+
+/** Cash vs securities split of the rows that will be imported. */
+export function importSummary(rows: Pick<ParsedRow, "type" | "quantity" | "price" | "fees" | "amount" | "tax">[]) {
+  const s = { deposits: 0, withdrawals: 0, buys: 0, sells: 0, dividends: 0, fees: 0, count: rows.length };
+  for (const r of rows) {
+    if (r.type === "depot") s.deposits += r.amount;
+    if (r.type === "retrait") s.withdrawals += r.amount;
+    if (r.type === "acquisition") { s.buys += r.quantity * r.price; s.fees += r.fees; }
+    if (r.type === "cession") { s.sells += r.quantity * r.price; s.fees += r.fees; }
+    if (r.type === "dividende") s.dividends += r.amount - r.tax;
+    if (r.type === "frais") s.fees += r.amount;
+  }
+  return { ...s, netCash: s.deposits - s.withdrawals - s.buys + s.sells + s.dividends - s.fees };
+}
