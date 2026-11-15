@@ -64,7 +64,7 @@ export function StatCard({
   );
 }
 
-export function Section({ title, description, actions, children, className, ...rest }: { title: ReactNode; description?: ReactNode; actions?: ReactNode; children: ReactNode; className?: string } & React.HTMLAttributes<HTMLElement>) {
+export function Section({ title, description, actions, children, className, ...rest }: { title: ReactNode; description?: ReactNode; actions?: ReactNode; children: ReactNode; className?: string } & Omit<React.HTMLAttributes<HTMLElement>, "title">) {
   return (
     <section className={cn("rounded-xl border bg-card p-4 shadow-card sm:p-5", className)} {...rest}>
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
