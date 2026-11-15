@@ -27,7 +27,7 @@ import { db, resetDemoData } from "@/lib/local-db";
 import { usePortfolio, type TxRow } from "@/lib/portfolio";
 import { useSecurityLookup } from "@/lib/portfolio";
 import { TX_LABEL } from "@/lib/constants";
-import { exportCsv, exportXlsx } from "@/lib/export";
+import { exportCsv, exportXlsx, type Cell } from "@/lib/export";
 import { fmtDate } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/dashboard/settings")({
@@ -92,18 +92,27 @@ function Profil() {
     setBusy(true);
     const { error } = await db.from("profiles").update({ first_name: first.trim().slice(0, 60) || null }).eq("id", user.id);
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     qc.invalidateQueries({ queryKey: ["profile", user.id] });
     toast.success("Profil mis à jour.");
   }
   async function saveEmail(e: React.FormEvent) {
     e.preventDefault();
     const v = email.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return toast.error("Adresse email invalide.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+      toast.error("Adresse email invalide.");
+      return;
+    }
     setBusy(true);
     const { error } = await db.auth.updateUser({ email: v });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     qc.invalidateQueries({ queryKey: ["profile", user?.id] });
     toast.success("Adresse email mise à jour.");
   }
@@ -145,8 +154,14 @@ function Securite() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (next.length < 8) return toast.error("8 caractères minimum.");
-    if (next !== confirm) return toast.error("Les deux mots de passe ne correspondent pas.");
+    if (next.length < 8) {
+      toast.error("8 caractères minimum.");
+      return;
+    }
+    if (next !== confirm) {
+      toast.error("Les deux mots de passe ne correspondent pas.");
+      return;
+    }
     if (!user) return;
     setBusy(true);
     const check = await db.auth.signInWithPassword({ email: user.email, password: current });
@@ -156,7 +171,10 @@ function Securite() {
     }
     const { error } = await db.auth.updateUser({ password: next });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     setCurrent("");
     setNext("");
     setConfirm("");
@@ -220,13 +238,19 @@ function Portefeuilles() {
     const n = (names[id] ?? "").trim();
     if (!n) return;
     const { error } = await db.from("portfolios").update({ name: n.slice(0, 60) }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Portefeuille renommé.");
     refresh();
   }
   async function toggleCash(id: string, v: boolean) {
     const { error } = await db.from("portfolios").update({ cash_tracking: v }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     refresh();
     qc.invalidateQueries({ queryKey: ["transactions"] });
   }
@@ -234,9 +258,15 @@ function Portefeuilles() {
     e.preventDefault();
     const n = newName.trim();
     if (!n) return;
-    if (portfolios.length >= 10) return toast.error("10 portefeuilles maximum.");
+    if (portfolios.length >= 10) {
+      toast.error("10 portefeuilles maximum.");
+      return;
+    }
     const { data, error } = await db.from("portfolios").insert({ name: n.slice(0, 60), cash_tracking: true, currency: "XOF" }).select().single();
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     setNewName("");
     await refresh();
     setPortfolioId(data.id);
@@ -244,7 +274,10 @@ function Portefeuilles() {
   }
   async function remove(id: string) {
     const { error } = await db.from("portfolios").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Portefeuille supprimé avec ses opérations.");
     if (portfolio?.id === id) {
       const other = portfolios.find((p) => p.id !== id);
@@ -323,7 +356,10 @@ function Visites() {
   });
   async function resetAll() {
     const { error } = await db.from("tour_progress").delete().eq("user_id", user?.id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     qc.invalidateQueries({ queryKey: ["tour-progress", user?.id] });
     toast.success("Les visites se relanceront à ta prochaine visite de chaque écran.");
   }
@@ -391,16 +427,19 @@ function Donnees() {
     setBusy(true);
     const { transactions, portfolios } = await collect();
     setBusy(false);
-    const pf = new Map(portfolios.map((p: { id: string; name: string }) => [p.id, p.name]));
+    const pf = new Map<string, string>(portfolios.map((p: { id: string; name: string }) => [p.id, p.name]));
     const head = ["Portefeuille", "Date", "Type", "Titre", "Quantité", "Prix", "Frais", "Montant", "IRVM", "Source", "Note"];
-    const rows = transactions.map((t) => [pf.get(t.portfolio_id) ?? "", t.date, TX_LABEL[t.type] ?? t.type, t.security_id ? (secs.get(t.security_id)?.ticker ?? "") : "", t.quantity || "", t.price || "", t.fees || "", t.amount || "", t.tax || "", t.source, t.note ?? ""]);
+    const rows: Cell[][] = transactions.map((t) => [pf.get(t.portfolio_id) ?? "", t.date, TX_LABEL[t.type] ?? t.type, t.security_id ? (secs.get(t.security_id)?.ticker ?? "") : "", t.quantity || "", t.price || "", t.fees || "", t.amount || "", t.tax || "", t.source, t.note ?? ""]);
     const name = `kauri-toutes-transactions-${new Date().toISOString().slice(0, 10)}`;
     if (kind === "csv") exportCsv(name + ".csv", head, rows);
     else await exportXlsx(name + ".xlsx", "Transactions", head, rows);
   }
   async function deleteAccount() {
     const { error } = await db.rpc("delete_account");
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     qc.clear();
     toast.success("Ton compte et tes données ont été supprimés.");
     navigate({ to: "/", replace: true });
