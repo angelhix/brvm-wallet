@@ -11,7 +11,7 @@ import { Tour } from "@/components/app/tour";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client";
+import { db as supabase } from "@/lib/local-db";
 import { txQueryKey, useAnalytics, type TxRow } from "@/lib/portfolio";
 import { feeRatio, flowDirection, grossAmount } from "@/lib/engine";
 import { TX_LABEL } from "@/lib/constants";

@@ -1,5 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { market } from "./demo-market";
+
+const tick = () => new Promise((r) => setTimeout(r, 30));
 import type { PricePoint } from "./engine";
 
 export interface MarketRow {
@@ -25,9 +27,20 @@ export const marketLatestQuery = queryOptions({
   queryKey: ["market", "latest"],
   staleTime: 5 * 60_000,
   queryFn: async (): Promise<MarketRow[]> => {
-    const { data, error } = await supabase.rpc("market_latest");
-    if (error) throw error;
-    return (data ?? []).map((r) => {
+    await tick();
+    const m = market();
+    const data = m.securities.map((sec) => {
+      const bars = m.bars.get(sec.id) ?? [];
+      const p = bars[bars.length - 1];
+      const pp = bars[bars.length - 2];
+      return {
+        security_id: sec.id, ticker: sec.ticker, name: sec.name, sector: sec.sector, country: sec.country,
+        shares_outstanding: sec.shares_outstanding, date: p?.date ?? null, close: p?.close ?? null,
+        prev_date: pp?.date ?? null, prev_close: pp?.close ?? null, volume: p?.volume ?? 0,
+        traded_value: p?.traded_value ?? 0, bid_qty: p?.bid_qty ?? 0, ask_qty: p?.ask_qty ?? 0,
+      };
+    });
+    return data.map((r) => {
       const close = r.close == null ? null : Number(r.close);
       const prev = r.prev_close == null ? null : Number(r.prev_close);
       return {
@@ -57,9 +70,8 @@ export const indexSeriesQuery = (code: string) =>
     queryKey: ["market", "index", code],
     staleTime: 5 * 60_000,
     queryFn: async (): Promise<PricePoint[]> => {
-      const { data, error } = await supabase.from("indices").select("date, value").eq("code", code).order("date").limit(5000);
-      if (error) throw error;
-      return (data ?? []).map((r) => ({ date: r.date, close: Number(r.value) }));
+      await tick();
+      return (market().indices.get(code) ?? []).map((r) => ({ date: r.date, close: r.value }));
     },
   });
 
@@ -69,9 +81,8 @@ export const allIndicesLatestQuery = queryOptions({
   queryFn: async () => {
     const out: Record<string, { date: string; value: number; prev: number | null }> = {};
     for (const code of ["BRVMC", "BRVM30", "BRVMPR"]) {
-      const { data, error } = await supabase.from("indices").select("date, value").eq("code", code).order("date", { ascending: false }).limit(2);
-      if (error) throw error;
-      if (data && data[0]) out[code] = { date: data[0].date, value: Number(data[0].value), prev: data[1] ? Number(data[1].value) : null };
+      const data = [...(market().indices.get(code) ?? [])].reverse().slice(0, 2);
+      if (data[0]) out[code] = { date: data[0].date, value: Number(data[0].value), prev: data[1] ? Number(data[1].value) : null };
     }
     return out;
   },
@@ -85,24 +96,8 @@ export const priceHistoryQuery = (ids: string[], from: string) =>
     queryFn: async (): Promise<Map<string, PricePoint[]>> => {
       const map = new Map<string, PricePoint[]>();
       if (ids.length === 0) return map;
-      const page = 1000;
-      for (let offset = 0; ; offset += page) {
-        const { data, error } = await supabase
-          .from("prices")
-          .select("security_id, date, close")
-          .in("security_id", ids)
-          .gte("date", from)
-          .order("security_id")
-          .order("date")
-          .range(offset, offset + page - 1);
-        if (error) throw error;
-        for (const r of data ?? []) {
-          const arr = map.get(r.security_id) ?? [];
-          arr.push({ date: r.date, close: Number(r.close) });
-          map.set(r.security_id, arr);
-        }
-        if (!data || data.length < page) break;
-      }
+      await tick();
+      for (const id of ids) map.set(id, (market().bars.get(id) ?? []).filter((b) => b.date >= from).map((b) => ({ date: b.date, close: b.close })));
       return map;
     },
   });
@@ -120,9 +115,9 @@ export const dividendsQuery = queryOptions({
   queryKey: ["market", "dividends"],
   staleTime: 10 * 60_000,
   queryFn: async (): Promise<DividendRow[]> => {
-    const { data, error } = await supabase.from("dividends").select("*").order("ex_date", { ascending: false }).limit(2000);
-    if (error) throw error;
-    return (data ?? []).map((d) => ({
+    await tick();
+    const data = market().dividends;
+    return data.map((d) => ({
       id: d.id,
       securityId: d.security_id,
       exDate: d.ex_date,
@@ -149,14 +144,9 @@ export const securityHistoryQuery = (securityId: string) =>
     staleTime: 5 * 60_000,
     enabled: !!securityId,
     queryFn: async (): Promise<SecurityBar[]> => {
-      const { data, error } = await supabase
-        .from("prices")
-        .select("date, open, high, low, close, volume, traded_value")
-        .eq("security_id", securityId)
-        .order("date")
-        .limit(1000);
-      if (error) throw error;
-      return (data ?? []).map((r) => ({
+      await tick();
+      const data = market().bars.get(securityId) ?? [];
+      return data.map((r) => ({
         date: r.date,
         open: r.open == null ? null : Number(r.open),
         high: r.high == null ? null : Number(r.high),
@@ -182,9 +172,9 @@ export const fundamentalsQuery = (securityId: string) =>
     staleTime: 30 * 60_000,
     enabled: !!securityId,
     queryFn: async (): Promise<FundamentalRow[]> => {
-      const { data, error } = await supabase.from("fundamentals").select("*").eq("security_id", securityId).order("fiscal_year");
-      if (error) throw error;
-      return (data ?? []).map((f) => ({
+      await tick();
+      const data = market().fundamentals.filter((f) => f.security_id === securityId);
+      return data.map((f) => ({
         fiscalYear: f.fiscal_year,
         revenue: Number(f.revenue),
         grossOperatingIncome: Number(f.gross_operating_income),
@@ -198,10 +188,9 @@ export const allFundamentalsLatestQuery = queryOptions({
   queryKey: ["market", "fundamentals-all"],
   staleTime: 30 * 60_000,
   queryFn: async () => {
-    const { data, error } = await supabase.from("fundamentals").select("*").eq("fiscal_year", 2025).limit(1000);
-    if (error) throw error;
+    await tick();
     const m = new Map<string, FundamentalRow>();
-    for (const f of data ?? [])
+    for (const f of market().fundamentals.filter((x) => x.fiscal_year === 2025))
       m.set(f.security_id, {
         fiscalYear: f.fiscal_year,
         revenue: Number(f.revenue),

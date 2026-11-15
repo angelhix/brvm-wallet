@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { db as supabase } from "@/lib/local-db";
 import { useAuth } from "@/hooks/use-auth";
 
 export interface TourStep {

@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { AlertTriangle, Plus, Sparkles, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { supabase } from "@/integrations/supabase/client";
+import { db as supabase } from "@/lib/local-db";
 import { usePortfolio, useSecurityLookup, txQueryKey } from "@/lib/portfolio";
 
 export function LoadingGrid({ cards = 3, rows = 2 }: { cards?: number; rows?: number }) {

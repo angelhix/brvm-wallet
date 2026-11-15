@@ -11,7 +11,7 @@ import { Tour } from "@/components/app/tour";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
+import { db as supabase } from "@/lib/local-db";
 import { txQueryKey, useAnalytics, usePortfolio, useSubPortfolios } from "@/lib/portfolio";
 import { TX_LABEL } from "@/lib/constants";
 import { fmtDate, fmtFCFA, fmtNum, fmtPct } from "@/lib/format";

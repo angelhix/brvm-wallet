@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { db as supabase } from "@/lib/local-db";
 import { AppShell } from "@/components/app/app-shell";
 import { PortfolioProvider } from "@/lib/portfolio";
 

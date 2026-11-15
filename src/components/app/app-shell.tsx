@@ -26,7 +26,7 @@ import { Logo } from "@/components/site/logo";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { supabase } from "@/integrations/supabase/client";
+import { db as supabase } from "@/lib/local-db";
 import { useAuth, useIsAdmin, useProfile } from "@/hooks/use-auth";
 import { usePortfolio } from "@/lib/portfolio";
 import { indexSeriesQuery } from "@/lib/market";
