@@ -328,7 +328,7 @@ function ParTitre({ rows, focus, onFocus }: { rows: UniverseRow[]; focus: string
           </SelectContent>
         </Select>
         <button
-          onClick={() => navigate({ to: "/dashboard/analyse", search: { t: r.ticker } })}
+          onClick={() => navigate({ to: "/dashboard/analyse", search: { ticker: r.ticker } })}
           className="inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
         >
           Fiche complète <ExternalLink className="h-3.5 w-3.5" />

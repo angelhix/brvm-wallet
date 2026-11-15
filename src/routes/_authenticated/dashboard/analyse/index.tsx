@@ -18,7 +18,8 @@ import { fmtDate, fmtFCFA, fmtNum, fmtPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/dashboard/analyse/")({
-  validateSearch: (s: Record<string, unknown>): { t?: string } => (typeof s["t"] === "string" && s["t"] ? { t: s["t"].toUpperCase() } : {}),
+  validateSearch: (s: Record<string, unknown>): { ticker?: string } =>
+    typeof s["ticker"] === "string" && s["ticker"] ? { ticker: s["ticker"].toUpperCase() } : {},
   head: () => ({
     meta: [
       { title: "Fiche titre — Kauri" },
@@ -42,14 +43,14 @@ const PERIODS = [
 ] as const;
 
 function FicheTitre() {
-  const { t } = Route.useSearch();
+  const { ticker } = Route.useSearch();
   const navigate = useNavigate();
   const u = useUniverse();
   const a = useAnalytics();
   const [open, setOpen] = useState(false);
   const [period, setPeriod] = useState<(typeof PERIODS)[number]["key"]>("1A");
 
-  const r = useMemo(() => u.rows.find((x) => x.ticker === (t ?? "SNTS")) ?? u.rows[0], [u.rows, t]);
+  const r = useMemo(() => u.rows.find((x) => x.ticker === (ticker ?? "SNTS")) ?? u.rows[0], [u.rows, ticker]);
   const hist = useQuery(securityHistoryQuery(r?.securityId ?? ""));
   const funds = useQuery(fundamentalsQuery(r?.securityId ?? ""));
 
@@ -116,7 +117,7 @@ function FicheTitre() {
                           value={`${x.ticker} ${x.name}`}
                           onSelect={() => {
                             setOpen(false);
-                            navigate({ to: "/dashboard/analyse", search: { t: x.ticker } });
+                            navigate({ to: "/dashboard/analyse", search: { ticker: x.ticker } });
                           }}
                         >
                           <Check className={cn("h-4 w-4", x.ticker === r.ticker ? "opacity-100" : "opacity-0")} />
@@ -247,7 +248,7 @@ function FicheTitre() {
           <ul className="space-y-1">
             {peers.map((p) => (
               <li key={p.securityId}>
-                <Link to="/dashboard/analyse" search={{ t: p.ticker }} className="flex items-center justify-between gap-3 rounded-lg px-2 py-2 hover:bg-secondary">
+                <Link to="/dashboard/analyse" search={{ ticker: p.ticker }} className="flex items-center justify-between gap-3 rounded-lg px-2 py-2 hover:bg-secondary">
                   <span className="min-w-0">
                     <span className="font-semibold">{p.ticker}</span>
                     <span className="block truncate text-xs text-muted-foreground">{p.name}</span>

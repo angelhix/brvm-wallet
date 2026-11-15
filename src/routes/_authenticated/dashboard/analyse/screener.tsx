@@ -237,7 +237,7 @@ function Screener() {
               </thead>
               <tbody>
                 {results.map((r) => (
-                  <tr key={r.securityId} className="cursor-pointer border-b last:border-0 hover:bg-secondary/60" onClick={() => navigate({ to: "/dashboard/analyse", search: { t: r.ticker } })}>
+                  <tr key={r.securityId} className="cursor-pointer border-b last:border-0 hover:bg-secondary/60" onClick={() => navigate({ to: "/dashboard/analyse", search: { ticker: r.ticker } })}>
                     <td className="px-3 py-2.5">
                       <span className="font-semibold">{r.ticker}</span>
                       <span className="block max-w-[200px] truncate text-xs text-muted-foreground">{r.name}</span>
