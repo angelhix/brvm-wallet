@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { Session, User } from "@supabase/supabase-js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { db as supabase } from "@/lib/local-db";
+import { db as supabase, type AuthUser as User, type Session } from "@/lib/local-db";
 
 interface AuthState {
   session: Session | null;

@@ -1,11 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
-import "@lovable.dev/cloud-auth-js/styles.css";
-import { lovable } from "@/integrations/lovable/index";
+import { Sparkles } from "lucide-react";
+import { db, DEMO_EMAIL, DEMO_PASSWORD } from "@/lib/local-db";
 import { Logo } from "./logo";
-
-export const POST_AUTH_KEY = "kauri.postAuth";
 
 export function safeRedirect(path: string | undefined | null): string {
   if (!path) return "/dashboard";
@@ -52,41 +50,29 @@ export function AuthShell({ title, subtitle, children, footer }: { title: string
   );
 }
 
-const GoogleG = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-    <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z" />
-    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z" />
-    <path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z" />
-    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z" />
-  </svg>
-);
-
-export function SocialButtons({ redirectTo, onDone }: { redirectTo: string; onDone: () => void }) {
-  async function go(provider: "google" | "lovable") {
-    window.sessionStorage.setItem(POST_AUTH_KEY, redirectTo);
-    const result = await lovable.auth.signInWithOAuth(provider, { redirect_uri: window.location.origin });
-    if (result.error) {
-      toast.error("La connexion n'a pas abouti. Réessaie.");
+/** One-click access to the seeded demo account (data lives in this browser). */
+export function SocialButtons({ onDone }: { redirectTo: string; onDone: () => void }) {
+  async function go() {
+    const { error } = await db.auth.signInWithPassword({ email: DEMO_EMAIL, password: DEMO_PASSWORD });
+    if (error) {
+      toast.error("Le compte démo est indisponible. Réessaie.");
       return;
     }
-    if (result.redirected) return;
-    window.sessionStorage.removeItem(POST_AUTH_KEY);
     onDone();
   }
   return (
     <div className="space-y-2">
       <button
         type="button"
-        onClick={() => go("google")}
-        className="flex h-10 w-full items-center justify-center gap-2.5 rounded-md border px-3 text-sm font-medium"
-        style={{ background: "#FFFFFF", borderColor: "#747775", color: "#1F1F1F" }}
+        onClick={go}
+        className="flex h-11 w-full items-center justify-center gap-2.5 rounded-md border border-primary/50 bg-gold-soft px-3 text-sm font-semibold text-foreground transition-colors hover:bg-primary/20"
       >
-        <GoogleG />
-        Continuer avec Google
+        <Sparkles className="h-4 w-4" />
+        Explorer avec le compte démo
       </button>
-      <button type="button" className="lovable-auth-button w-full" onClick={() => go("lovable")}>
-        Continuer avec Lovable
-      </button>
+      <p className="text-center text-xs text-muted-foreground">
+        {DEMO_EMAIL} · {DEMO_PASSWORD} — portefeuille d'exemple et accès au back-office.
+      </p>
     </div>
   );
 }
