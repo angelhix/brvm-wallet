@@ -246,7 +246,7 @@ function Volumes({ rows, onPick }: { rows: UniverseRow[]; onPick: (id: string) =
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label="Valeur échangée" value={<Money value={total} />} sub="Sur la séance" emphasis />
         <StatCard label="Titres échangés" value={fmtNum(totalVol)} sub={`${rows.filter((r) => r.volume > 0).length} sociétés traitées`} />
-        <StatCard label="Capitalisation" value={`${fmtNum(cap / 1e12, 2)} 000 Md`} sub={fmtFCFA(cap)} />
+        <StatCard label="Capitalisation" value={`${fmtNum(cap / 1e9, 0)} Md FCFA`} sub="Les 48 sociétés au dernier cours" />
       </div>
       <div className="grid gap-4 lg:grid-cols-3">
         <Section title="Top 10 des valeurs échangées" className="lg:col-span-2">
