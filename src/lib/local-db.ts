@@ -391,7 +391,7 @@ const auth = {
     emit("SIGNED_OUT");
     return { error: null };
   },
-  async resetPasswordForEmail(_email: string, _opts?: unknown) {
+  async resetPasswordForEmail(_email: string, _opts?: unknown): Promise<{ data: object; error: Error | null }> {
     return { data: {}, error: null };
   },
   async updateUser(attrs: { password?: string; email?: string; data?: Record<string, unknown> }) {
@@ -414,7 +414,7 @@ const auth = {
 };
 
 // ---------- rpc ----------
-async function rpc(name: string, args: Record<string, any> = {}): Promise<Result> {
+async function rpc(name: string, args: Row = {}): Promise<Result> {
   await new Promise((r) => setTimeout(r, 40));
   const s = load();
   const me = currentUser();

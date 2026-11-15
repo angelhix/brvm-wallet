@@ -115,7 +115,7 @@ export function useTransactions() {
           .range(offset, offset + 999);
         if (error) throw error;
         rows.push(
-          ...(data ?? []).map((r) => ({
+          ...(data ?? []).map((r: TxRow) => ({
             ...r,
             quantity: Number(r.quantity),
             price: Number(r.price),
