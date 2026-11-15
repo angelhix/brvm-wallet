@@ -19,7 +19,7 @@ import { checkRow, importSummary, parseNumber, parseRows, splitPasted, type Pars
 import { readSheet, exportCsv } from "@/lib/export";
 import { TX_LABEL, TX_TYPES } from "@/lib/constants";
 import type { TxType } from "@/lib/engine";
-import { fmtDate, fmtFCFA, fmtNum } from "@/lib/format";
+import { fmtDate, fmtNum } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/dashboard/transactions/import")({
@@ -537,7 +537,7 @@ function ImportPage() {
         </div>
       )}
       <p className="mt-6 text-xs text-muted-foreground">
-        Types reconnus : {Object.values(TX_LABEL).join(", ")}. Montants en {fmtFCFA(0).replace(/^0\s?/, "")}.
+        Types reconnus : {Object.values(TX_LABEL).join(", ")}. Tous les montants sont en FCFA.
       </p>
     </>
   );
