@@ -10,33 +10,393 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AideRouteImport } from './routes/aide'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LegalRouteImport } from './routes/legal'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SecuriteRouteImport } from './routes/securite'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedParrainageRouteImport } from './routes/_authenticated/parrainage'
+import { Route as AuthenticatedRendezVousRouteImport } from './routes/_authenticated/rendez-vous'
+import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
+import { Route as AuthenticatedDashboardAUneDateRouteImport } from './routes/_authenticated/dashboard/a-une-date'
+import { Route as AuthenticatedDashboardSettingsRouteImport } from './routes/_authenticated/dashboard/settings'
+import { Route as AuthenticatedDashboardSousPortefeuillesRouteImport } from './routes/_authenticated/dashboard/sous-portefeuilles'
+import { Route as AuthenticatedDashboardTitresCedesRouteImport } from './routes/_authenticated/dashboard/titres-cedes'
+import { Route as AuthenticatedDashboardAnalyseGlobaleIndexRouteImport } from './routes/_authenticated/dashboard/analyse-globale/index'
+import { Route as AuthenticatedDashboardAnalyseIndexRouteImport } from './routes/_authenticated/dashboard/analyse/index'
+import { Route as AuthenticatedDashboardAnalyseScreenerRouteImport } from './routes/_authenticated/dashboard/analyse/screener'
+import { Route as AuthenticatedDashboardPortefeuilleIndexRouteImport } from './routes/_authenticated/dashboard/portefeuille/index'
+import { Route as AuthenticatedDashboardPortefeuilleApportsEtPlusValueRouteImport } from './routes/_authenticated/dashboard/portefeuille/apports-et-plus-value'
+import { Route as AuthenticatedDashboardPortefeuilleGainsParPeriodeRouteImport } from './routes/_authenticated/dashboard/portefeuille/gains-par-periode'
+import { Route as AuthenticatedDashboardPortefeuillePerformanceTitresRouteImport } from './routes/_authenticated/dashboard/portefeuille/performance-titres'
+import { Route as AuthenticatedDashboardTransactionsIndexRouteImport } from './routes/_authenticated/dashboard/transactions/index'
+import { Route as AuthenticatedDashboardTransactionsImportRouteImport } from './routes/_authenticated/dashboard/transactions/import'
+import { Route as AuthenticatedDashboardTransactionsNouvelleRouteImport } from './routes/_authenticated/dashboard/transactions/nouvelle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AideRoute = AideRouteImport.update({
+  id: '/aide',
+  path: '/aide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SecuriteRoute = SecuriteRouteImport.update({
+  id: '/securite',
+  path: '/securite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedParrainageRoute = AuthenticatedParrainageRouteImport.update({
+  id: '/parrainage',
+  path: '/parrainage',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRendezVousRoute = AuthenticatedRendezVousRouteImport.update({
+  id: '/rendez-vous',
+  path: '/rendez-vous',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardIndexRoute =
+  AuthenticatedDashboardIndexRouteImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardAUneDateRoute =
+  AuthenticatedDashboardAUneDateRouteImport.update({
+    id: '/dashboard/a-une-date',
+    path: '/dashboard/a-une-date',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardSettingsRoute =
+  AuthenticatedDashboardSettingsRouteImport.update({
+    id: '/dashboard/settings',
+    path: '/dashboard/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardSousPortefeuillesRoute =
+  AuthenticatedDashboardSousPortefeuillesRouteImport.update({
+    id: '/dashboard/sous-portefeuilles',
+    path: '/dashboard/sous-portefeuilles',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardTitresCedesRoute =
+  AuthenticatedDashboardTitresCedesRouteImport.update({
+    id: '/dashboard/titres-cedes',
+    path: '/dashboard/titres-cedes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardAnalyseGlobaleIndexRoute =
+  AuthenticatedDashboardAnalyseGlobaleIndexRouteImport.update({
+    id: '/dashboard/analyse-globale/',
+    path: '/dashboard/analyse-globale/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardAnalyseIndexRoute =
+  AuthenticatedDashboardAnalyseIndexRouteImport.update({
+    id: '/dashboard/analyse/',
+    path: '/dashboard/analyse/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardAnalyseScreenerRoute =
+  AuthenticatedDashboardAnalyseScreenerRouteImport.update({
+    id: '/dashboard/analyse/screener',
+    path: '/dashboard/analyse/screener',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardPortefeuilleIndexRoute =
+  AuthenticatedDashboardPortefeuilleIndexRouteImport.update({
+    id: '/dashboard/portefeuille/',
+    path: '/dashboard/portefeuille/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardPortefeuilleApportsEtPlusValueRoute =
+  AuthenticatedDashboardPortefeuilleApportsEtPlusValueRouteImport.update({
+    id: '/dashboard/portefeuille/apports-et-plus-value',
+    path: '/dashboard/portefeuille/apports-et-plus-value',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardPortefeuilleGainsParPeriodeRoute =
+  AuthenticatedDashboardPortefeuilleGainsParPeriodeRouteImport.update({
+    id: '/dashboard/portefeuille/gains-par-periode',
+    path: '/dashboard/portefeuille/gains-par-periode',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardPortefeuillePerformanceTitresRoute =
+  AuthenticatedDashboardPortefeuillePerformanceTitresRouteImport.update({
+    id: '/dashboard/portefeuille/performance-titres',
+    path: '/dashboard/portefeuille/performance-titres',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardTransactionsIndexRoute =
+  AuthenticatedDashboardTransactionsIndexRouteImport.update({
+    id: '/dashboard/transactions/',
+    path: '/dashboard/transactions/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardTransactionsImportRoute =
+  AuthenticatedDashboardTransactionsImportRouteImport.update({
+    id: '/dashboard/transactions/import',
+    path: '/dashboard/transactions/import',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardTransactionsNouvelleRoute =
+  AuthenticatedDashboardTransactionsNouvelleRouteImport.update({
+    id: '/dashboard/transactions/nouvelle',
+    path: '/dashboard/transactions/nouvelle',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/aide': typeof AideRoute
+  '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/legal': typeof LegalRoute
+  '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/securite': typeof SecuriteRoute
+  '/signup': typeof SignupRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/parrainage': typeof AuthenticatedParrainageRoute
+  '/rendez-vous': typeof AuthenticatedRendezVousRoute
+  '/dashboard/a-une-date': typeof AuthenticatedDashboardAUneDateRoute
+  '/dashboard/settings': typeof AuthenticatedDashboardSettingsRoute
+  '/dashboard/sous-portefeuilles': typeof AuthenticatedDashboardSousPortefeuillesRoute
+  '/dashboard/titres-cedes': typeof AuthenticatedDashboardTitresCedesRoute
+  '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/analyse/screener': typeof AuthenticatedDashboardAnalyseScreenerRoute
+  '/dashboard/portefeuille/apports-et-plus-value': typeof AuthenticatedDashboardPortefeuilleApportsEtPlusValueRoute
+  '/dashboard/portefeuille/gains-par-periode': typeof AuthenticatedDashboardPortefeuilleGainsParPeriodeRoute
+  '/dashboard/portefeuille/performance-titres': typeof AuthenticatedDashboardPortefeuillePerformanceTitresRoute
+  '/dashboard/transactions/import': typeof AuthenticatedDashboardTransactionsImportRoute
+  '/dashboard/transactions/nouvelle': typeof AuthenticatedDashboardTransactionsNouvelleRoute
+  '/dashboard/analyse-globale/': typeof AuthenticatedDashboardAnalyseGlobaleIndexRoute
+  '/dashboard/analyse/': typeof AuthenticatedDashboardAnalyseIndexRoute
+  '/dashboard/portefeuille/': typeof AuthenticatedDashboardPortefeuilleIndexRoute
+  '/dashboard/transactions/': typeof AuthenticatedDashboardTransactionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aide': typeof AideRoute
+  '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/legal': typeof LegalRoute
+  '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/securite': typeof SecuriteRoute
+  '/signup': typeof SignupRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/parrainage': typeof AuthenticatedParrainageRoute
+  '/rendez-vous': typeof AuthenticatedRendezVousRoute
+  '/dashboard/a-une-date': typeof AuthenticatedDashboardAUneDateRoute
+  '/dashboard/settings': typeof AuthenticatedDashboardSettingsRoute
+  '/dashboard/sous-portefeuilles': typeof AuthenticatedDashboardSousPortefeuillesRoute
+  '/dashboard/titres-cedes': typeof AuthenticatedDashboardTitresCedesRoute
+  '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/analyse/screener': typeof AuthenticatedDashboardAnalyseScreenerRoute
+  '/dashboard/portefeuille/apports-et-plus-value': typeof AuthenticatedDashboardPortefeuilleApportsEtPlusValueRoute
+  '/dashboard/portefeuille/gains-par-periode': typeof AuthenticatedDashboardPortefeuilleGainsParPeriodeRoute
+  '/dashboard/portefeuille/performance-titres': typeof AuthenticatedDashboardPortefeuillePerformanceTitresRoute
+  '/dashboard/transactions/import': typeof AuthenticatedDashboardTransactionsImportRoute
+  '/dashboard/transactions/nouvelle': typeof AuthenticatedDashboardTransactionsNouvelleRoute
+  '/dashboard/analyse-globale': typeof AuthenticatedDashboardAnalyseGlobaleIndexRoute
+  '/dashboard/analyse': typeof AuthenticatedDashboardAnalyseIndexRoute
+  '/dashboard/portefeuille': typeof AuthenticatedDashboardPortefeuilleIndexRoute
+  '/dashboard/transactions': typeof AuthenticatedDashboardTransactionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/aide': typeof AideRoute
+  '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/legal': typeof LegalRoute
+  '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/securite': typeof SecuriteRoute
+  '/signup': typeof SignupRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/parrainage': typeof AuthenticatedParrainageRoute
+  '/_authenticated/rendez-vous': typeof AuthenticatedRendezVousRoute
+  '/_authenticated/dashboard/a-une-date': typeof AuthenticatedDashboardAUneDateRoute
+  '/_authenticated/dashboard/settings': typeof AuthenticatedDashboardSettingsRoute
+  '/_authenticated/dashboard/sous-portefeuilles': typeof AuthenticatedDashboardSousPortefeuillesRoute
+  '/_authenticated/dashboard/titres-cedes': typeof AuthenticatedDashboardTitresCedesRoute
+  '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/dashboard/analyse/screener': typeof AuthenticatedDashboardAnalyseScreenerRoute
+  '/_authenticated/dashboard/portefeuille/apports-et-plus-value': typeof AuthenticatedDashboardPortefeuilleApportsEtPlusValueRoute
+  '/_authenticated/dashboard/portefeuille/gains-par-periode': typeof AuthenticatedDashboardPortefeuilleGainsParPeriodeRoute
+  '/_authenticated/dashboard/portefeuille/performance-titres': typeof AuthenticatedDashboardPortefeuillePerformanceTitresRoute
+  '/_authenticated/dashboard/transactions/import': typeof AuthenticatedDashboardTransactionsImportRoute
+  '/_authenticated/dashboard/transactions/nouvelle': typeof AuthenticatedDashboardTransactionsNouvelleRoute
+  '/_authenticated/dashboard/analyse-globale/': typeof AuthenticatedDashboardAnalyseGlobaleIndexRoute
+  '/_authenticated/dashboard/analyse/': typeof AuthenticatedDashboardAnalyseIndexRoute
+  '/_authenticated/dashboard/portefeuille/': typeof AuthenticatedDashboardPortefeuilleIndexRoute
+  '/_authenticated/dashboard/transactions/': typeof AuthenticatedDashboardTransactionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/aide'
+    | '/contact'
+    | '/forgot-password'
+    | '/legal'
+    | '/login'
+    | '/privacy'
+    | '/reset-password'
+    | '/securite'
+    | '/signup'
+    | '/admin'
+    | '/parrainage'
+    | '/rendez-vous'
+    | '/dashboard/a-une-date'
+    | '/dashboard/settings'
+    | '/dashboard/sous-portefeuilles'
+    | '/dashboard/titres-cedes'
+    | '/dashboard/'
+    | '/dashboard/analyse/screener'
+    | '/dashboard/portefeuille/apports-et-plus-value'
+    | '/dashboard/portefeuille/gains-par-periode'
+    | '/dashboard/portefeuille/performance-titres'
+    | '/dashboard/transactions/import'
+    | '/dashboard/transactions/nouvelle'
+    | '/dashboard/analyse-globale/'
+    | '/dashboard/analyse/'
+    | '/dashboard/portefeuille/'
+    | '/dashboard/transactions/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/aide'
+    | '/contact'
+    | '/forgot-password'
+    | '/legal'
+    | '/login'
+    | '/privacy'
+    | '/reset-password'
+    | '/securite'
+    | '/signup'
+    | '/admin'
+    | '/parrainage'
+    | '/rendez-vous'
+    | '/dashboard/a-une-date'
+    | '/dashboard/settings'
+    | '/dashboard/sous-portefeuilles'
+    | '/dashboard/titres-cedes'
+    | '/dashboard'
+    | '/dashboard/analyse/screener'
+    | '/dashboard/portefeuille/apports-et-plus-value'
+    | '/dashboard/portefeuille/gains-par-periode'
+    | '/dashboard/portefeuille/performance-titres'
+    | '/dashboard/transactions/import'
+    | '/dashboard/transactions/nouvelle'
+    | '/dashboard/analyse-globale'
+    | '/dashboard/analyse'
+    | '/dashboard/portefeuille'
+    | '/dashboard/transactions'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/aide'
+    | '/contact'
+    | '/forgot-password'
+    | '/legal'
+    | '/login'
+    | '/privacy'
+    | '/reset-password'
+    | '/securite'
+    | '/signup'
+    | '/_authenticated/admin'
+    | '/_authenticated/parrainage'
+    | '/_authenticated/rendez-vous'
+    | '/_authenticated/dashboard/a-une-date'
+    | '/_authenticated/dashboard/settings'
+    | '/_authenticated/dashboard/sous-portefeuilles'
+    | '/_authenticated/dashboard/titres-cedes'
+    | '/_authenticated/dashboard/'
+    | '/_authenticated/dashboard/analyse/screener'
+    | '/_authenticated/dashboard/portefeuille/apports-et-plus-value'
+    | '/_authenticated/dashboard/portefeuille/gains-par-periode'
+    | '/_authenticated/dashboard/portefeuille/performance-titres'
+    | '/_authenticated/dashboard/transactions/import'
+    | '/_authenticated/dashboard/transactions/nouvelle'
+    | '/_authenticated/dashboard/analyse-globale/'
+    | '/_authenticated/dashboard/analyse/'
+    | '/_authenticated/dashboard/portefeuille/'
+    | '/_authenticated/dashboard/transactions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AideRoute: typeof AideRoute
+  ContactRoute: typeof ContactRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LegalRoute: typeof LegalRoute
+  LoginRoute: typeof LoginRoute
+  PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SecuriteRoute: typeof SecuriteRoute
+  SignupRoute: typeof SignupRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +408,274 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aide': {
+      id: '/aide'
+      path: '/aide'
+      fullPath: '/aide'
+      preLoaderRoute: typeof AideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/securite': {
+      id: '/securite'
+      path: '/securite'
+      fullPath: '/securite'
+      preLoaderRoute: typeof SecuriteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/parrainage': {
+      id: '/_authenticated/parrainage'
+      path: '/parrainage'
+      fullPath: '/parrainage'
+      preLoaderRoute: typeof AuthenticatedParrainageRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/rendez-vous': {
+      id: '/_authenticated/rendez-vous'
+      path: '/rendez-vous'
+      fullPath: '/rendez-vous'
+      preLoaderRoute: typeof AuthenticatedRendezVousRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/': {
+      id: '/_authenticated/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/a-une-date': {
+      id: '/_authenticated/dashboard/a-une-date'
+      path: '/dashboard/a-une-date'
+      fullPath: '/dashboard/a-une-date'
+      preLoaderRoute: typeof AuthenticatedDashboardAUneDateRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/settings': {
+      id: '/_authenticated/dashboard/settings'
+      path: '/dashboard/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof AuthenticatedDashboardSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/sous-portefeuilles': {
+      id: '/_authenticated/dashboard/sous-portefeuilles'
+      path: '/dashboard/sous-portefeuilles'
+      fullPath: '/dashboard/sous-portefeuilles'
+      preLoaderRoute: typeof AuthenticatedDashboardSousPortefeuillesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/titres-cedes': {
+      id: '/_authenticated/dashboard/titres-cedes'
+      path: '/dashboard/titres-cedes'
+      fullPath: '/dashboard/titres-cedes'
+      preLoaderRoute: typeof AuthenticatedDashboardTitresCedesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/analyse-globale/': {
+      id: '/_authenticated/dashboard/analyse-globale/'
+      path: '/dashboard/analyse-globale'
+      fullPath: '/dashboard/analyse-globale/'
+      preLoaderRoute: typeof AuthenticatedDashboardAnalyseGlobaleIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/analyse/': {
+      id: '/_authenticated/dashboard/analyse/'
+      path: '/dashboard/analyse'
+      fullPath: '/dashboard/analyse/'
+      preLoaderRoute: typeof AuthenticatedDashboardAnalyseIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/analyse/screener': {
+      id: '/_authenticated/dashboard/analyse/screener'
+      path: '/dashboard/analyse/screener'
+      fullPath: '/dashboard/analyse/screener'
+      preLoaderRoute: typeof AuthenticatedDashboardAnalyseScreenerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/portefeuille/': {
+      id: '/_authenticated/dashboard/portefeuille/'
+      path: '/dashboard/portefeuille'
+      fullPath: '/dashboard/portefeuille/'
+      preLoaderRoute: typeof AuthenticatedDashboardPortefeuilleIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/portefeuille/apports-et-plus-value': {
+      id: '/_authenticated/dashboard/portefeuille/apports-et-plus-value'
+      path: '/dashboard/portefeuille/apports-et-plus-value'
+      fullPath: '/dashboard/portefeuille/apports-et-plus-value'
+      preLoaderRoute: typeof AuthenticatedDashboardPortefeuilleApportsEtPlusValueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/portefeuille/gains-par-periode': {
+      id: '/_authenticated/dashboard/portefeuille/gains-par-periode'
+      path: '/dashboard/portefeuille/gains-par-periode'
+      fullPath: '/dashboard/portefeuille/gains-par-periode'
+      preLoaderRoute: typeof AuthenticatedDashboardPortefeuilleGainsParPeriodeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/portefeuille/performance-titres': {
+      id: '/_authenticated/dashboard/portefeuille/performance-titres'
+      path: '/dashboard/portefeuille/performance-titres'
+      fullPath: '/dashboard/portefeuille/performance-titres'
+      preLoaderRoute: typeof AuthenticatedDashboardPortefeuillePerformanceTitresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/transactions/': {
+      id: '/_authenticated/dashboard/transactions/'
+      path: '/dashboard/transactions'
+      fullPath: '/dashboard/transactions/'
+      preLoaderRoute: typeof AuthenticatedDashboardTransactionsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/transactions/import': {
+      id: '/_authenticated/dashboard/transactions/import'
+      path: '/dashboard/transactions/import'
+      fullPath: '/dashboard/transactions/import'
+      preLoaderRoute: typeof AuthenticatedDashboardTransactionsImportRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard/transactions/nouvelle': {
+      id: '/_authenticated/dashboard/transactions/nouvelle'
+      path: '/dashboard/transactions/nouvelle'
+      fullPath: '/dashboard/transactions/nouvelle'
+      preLoaderRoute: typeof AuthenticatedDashboardTransactionsNouvelleRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedParrainageRoute: typeof AuthenticatedParrainageRoute
+  AuthenticatedRendezVousRoute: typeof AuthenticatedRendezVousRoute
+  AuthenticatedDashboardAUneDateRoute: typeof AuthenticatedDashboardAUneDateRoute
+  AuthenticatedDashboardSettingsRoute: typeof AuthenticatedDashboardSettingsRoute
+  AuthenticatedDashboardSousPortefeuillesRoute: typeof AuthenticatedDashboardSousPortefeuillesRoute
+  AuthenticatedDashboardTitresCedesRoute: typeof AuthenticatedDashboardTitresCedesRoute
+  AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardAnalyseScreenerRoute: typeof AuthenticatedDashboardAnalyseScreenerRoute
+  AuthenticatedDashboardPortefeuilleApportsEtPlusValueRoute: typeof AuthenticatedDashboardPortefeuilleApportsEtPlusValueRoute
+  AuthenticatedDashboardPortefeuilleGainsParPeriodeRoute: typeof AuthenticatedDashboardPortefeuilleGainsParPeriodeRoute
+  AuthenticatedDashboardPortefeuillePerformanceTitresRoute: typeof AuthenticatedDashboardPortefeuillePerformanceTitresRoute
+  AuthenticatedDashboardTransactionsImportRoute: typeof AuthenticatedDashboardTransactionsImportRoute
+  AuthenticatedDashboardTransactionsNouvelleRoute: typeof AuthenticatedDashboardTransactionsNouvelleRoute
+  AuthenticatedDashboardAnalyseGlobaleIndexRoute: typeof AuthenticatedDashboardAnalyseGlobaleIndexRoute
+  AuthenticatedDashboardAnalyseIndexRoute: typeof AuthenticatedDashboardAnalyseIndexRoute
+  AuthenticatedDashboardPortefeuilleIndexRoute: typeof AuthenticatedDashboardPortefeuilleIndexRoute
+  AuthenticatedDashboardTransactionsIndexRoute: typeof AuthenticatedDashboardTransactionsIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedParrainageRoute: AuthenticatedParrainageRoute,
+  AuthenticatedRendezVousRoute: AuthenticatedRendezVousRoute,
+  AuthenticatedDashboardAUneDateRoute: AuthenticatedDashboardAUneDateRoute,
+  AuthenticatedDashboardSettingsRoute: AuthenticatedDashboardSettingsRoute,
+  AuthenticatedDashboardSousPortefeuillesRoute:
+    AuthenticatedDashboardSousPortefeuillesRoute,
+  AuthenticatedDashboardTitresCedesRoute:
+    AuthenticatedDashboardTitresCedesRoute,
+  AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+  AuthenticatedDashboardAnalyseScreenerRoute:
+    AuthenticatedDashboardAnalyseScreenerRoute,
+  AuthenticatedDashboardPortefeuilleApportsEtPlusValueRoute:
+    AuthenticatedDashboardPortefeuilleApportsEtPlusValueRoute,
+  AuthenticatedDashboardPortefeuilleGainsParPeriodeRoute:
+    AuthenticatedDashboardPortefeuilleGainsParPeriodeRoute,
+  AuthenticatedDashboardPortefeuillePerformanceTitresRoute:
+    AuthenticatedDashboardPortefeuillePerformanceTitresRoute,
+  AuthenticatedDashboardTransactionsImportRoute:
+    AuthenticatedDashboardTransactionsImportRoute,
+  AuthenticatedDashboardTransactionsNouvelleRoute:
+    AuthenticatedDashboardTransactionsNouvelleRoute,
+  AuthenticatedDashboardAnalyseGlobaleIndexRoute:
+    AuthenticatedDashboardAnalyseGlobaleIndexRoute,
+  AuthenticatedDashboardAnalyseIndexRoute:
+    AuthenticatedDashboardAnalyseIndexRoute,
+  AuthenticatedDashboardPortefeuilleIndexRoute:
+    AuthenticatedDashboardPortefeuilleIndexRoute,
+  AuthenticatedDashboardTransactionsIndexRoute:
+    AuthenticatedDashboardTransactionsIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AideRoute: AideRoute,
+  ContactRoute: ContactRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LegalRoute: LegalRoute,
+  LoginRoute: LoginRoute,
+  PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SecuriteRoute: SecuriteRoute,
+  SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
