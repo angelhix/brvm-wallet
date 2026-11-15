@@ -36,7 +36,6 @@ export interface UniverseRow extends MarketRow {
   ch1y: number | null;
   high52: number | null;
   low52: number | null;
-  avgVolume: number;
   lastDividend: DividendRow | undefined;
   nextDividend: DividendRow | undefined;
   fundamentals: FundamentalRow | undefined;
@@ -68,7 +67,6 @@ export function buildUniverse(rows: MarketRow[], history: Map<string, PricePoint
       ch1y: changeSince(s, shiftDays(last, -365)),
       high52: year.length ? Math.max(...year.map((p) => p.close)) : null,
       low52: year.length ? Math.min(...year.map((p) => p.close)) : null,
-      avgVolume: 0,
       lastDividend,
       nextDividend,
       fundamentals: f,
